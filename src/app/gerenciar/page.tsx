@@ -52,6 +52,14 @@ export default async function ManagePage({ searchParams }: { searchParams: Promi
 
       <footer className="mt-14 flex items-center justify-center gap-3 text-sm text-muted">
         {user && <span>Conectado como {user.username}</span>}
+        {user?.role === "admin" && (
+          <>
+            <span aria-hidden>·</span>
+            <Link href="/admin" className="font-medium text-fg underline underline-offset-4">
+              Admin
+            </Link>
+          </>
+        )}
         <span aria-hidden>·</span>
         <form action={logout}>
           <button type="submit" className="font-medium text-fg underline underline-offset-4">
@@ -104,7 +112,7 @@ async function Routines({ userId }: { userId: string }) {
                 <ChevronDown size={18} className="shrink-0 transition-transform group-open:rotate-180" />
               </summary>
               <div className="flex flex-col gap-4 border-t border-line p-4">
-                <RuleForm rule={r} categories={categories} today={today} />
+                <RuleForm key={JSON.stringify(r)} rule={r} categories={categories} today={today} />
                 <ConfirmDelete
                   action={removeRule}
                   id={r.id}
