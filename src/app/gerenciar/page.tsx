@@ -1,4 +1,4 @@
-import { ArrowLeft, ChevronDown, Plus } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
 import Link from "next/link";
 import { AddTaskFab } from "@/components/add-task-fab";
 import { Backlog } from "@/components/backlog";
@@ -28,10 +28,7 @@ export default async function ManagePage({ searchParams }: { searchParams: Promi
 
   return (
     <main className="mx-auto min-h-dvh max-w-xl px-5 pb-28 pt-5">
-      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg">
-        <ArrowLeft size={16} /> Voltar
-      </Link>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tighter">Gerenciar</h1>
+      <h1 className="text-3xl font-semibold tracking-tighter">Gerenciar</h1>
 
       <nav className="mt-5 flex gap-6 border-b border-line text-sm">
         {TABS.map((t) => (
