@@ -543,6 +543,14 @@ export function listRules(userId: string): Promise<RuleRow[]> {
   return db.select().from(recurringRules).where(eq(recurringRules.userId, userId)).orderBy(asc(recurringRules.title));
 }
 
+export async function getRule(userId: string, id: string): Promise<RuleRow | null> {
+  const [row] = await db
+    .select()
+    .from(recurringRules)
+    .where(and(eq(recurringRules.id, id), eq(recurringRules.userId, userId)));
+  return row ?? null;
+}
+
 export async function createRule(userId: string, input: RuleInput) {
   await db.insert(recurringRules).values({
     ...input,

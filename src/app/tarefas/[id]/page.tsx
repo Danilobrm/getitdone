@@ -22,7 +22,7 @@ export default async function TaskPage({ params }: { params: Promise<{ id: strin
 
   return (
     <main className="mx-auto min-h-dvh max-w-xl px-5 pb-28 pt-5">
-      <TaskEditor task={task} categories={categories} backHref={back}>
+      <TaskEditor key={JSON.stringify(task)} task={task} categories={categories} backHref={back}>
         <h1 className="mt-4 break-words text-3xl font-semibold leading-tight tracking-tighter">{task.title}</h1>
 
         {canComplete && (

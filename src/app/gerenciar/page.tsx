@@ -1,16 +1,13 @@
-import { ChevronDown, Plus } from "lucide-react";
+import { ChevronRight, Plus } from "lucide-react";
 import Link from "next/link";
 import { AddTaskFab } from "@/components/add-task-fab";
 import { Backlog } from "@/components/backlog";
 import { CategoryList } from "@/components/category-list";
-import { ConfirmDelete } from "@/components/confirm-delete";
 import { NewCategoryForm } from "@/components/new-category-form";
-import { RuleForm } from "@/components/rule-form";
 import { getUser, listBacklog, listCategories, listRules } from "@/db/queries";
 import { requireUserId } from "@/lib/auth";
-import { WEEKDAY_SHORT, todayLocal } from "@/lib/dates";
+import { WEEKDAY_SHORT } from "@/lib/dates";
 import { logout } from "../login/actions";
-import { removeRule } from "../actions";
 
 export const dynamic = "force-dynamic";
 
@@ -82,8 +79,7 @@ async function BacklogTab({ userId }: { userId: string }) {
 }
 
 async function Routines({ userId }: { userId: string }) {
-  const [rules, categories] = await Promise.all([listRules(userId), listCategories(userId)]);
-  const today = todayLocal();
+  const rules = await listRules(userId);
   return (
     <section className="flex flex-col gap-4">
       <Link
@@ -100,27 +96,19 @@ async function Routines({ userId }: { userId: string }) {
       <ul className="flex flex-col gap-3">
         {rules.map((r) => (
           <li key={r.id}>
-            <details className="group rounded-2xl border border-line">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3.5">
-                <div className="min-w-0">
-                  <p className={`truncate font-semibold ${r.active ? "" : "text-muted line-through"}`}>{r.title}</p>
-                  <p className="mt-0.5 text-xs text-muted">
-                    {r.weekdays.map((d) => WEEKDAY_SHORT[d]).join(" · ")}
-                    {!r.active && " · pausada"}
-                  </p>
-                </div>
-                <ChevronDown size={18} className="shrink-0 transition-transform group-open:rotate-180" />
-              </summary>
-              <div className="flex flex-col gap-4 border-t border-line p-4">
-                <RuleForm key={JSON.stringify(r)} rule={r} categories={categories} today={today} />
-                <ConfirmDelete
-                  action={removeRule}
-                  id={r.id}
-                  label="Excluir rotina"
-                  warning="Excluir a rotina? As tarefas já geradas continuam, mas nada novo será criado."
-                />
+            <Link
+              href={`/gerenciar/rotinas/${r.id}`}
+              className="flex items-center justify-between gap-3 rounded-2xl border border-line px-4 py-3.5 transition hover:border-fg"
+            >
+              <div className="min-w-0">
+                <p className={`truncate font-semibold ${r.active ? "" : "text-muted line-through"}`}>{r.title}</p>
+                <p className="mt-0.5 text-xs text-muted">
+                  {r.weekdays.map((d) => WEEKDAY_SHORT[d]).join(" · ")}
+                  {!r.active && " · pausada"}
+                </p>
               </div>
-            </details>
+              <ChevronRight size={18} className="shrink-0 text-muted" />
+            </Link>
           </li>
         ))}
       </ul>
