@@ -104,7 +104,7 @@ async function Routines({ userId }: { userId: string }) {
                 <ChevronDown size={18} className="shrink-0 transition-transform group-open:rotate-180" />
               </summary>
               <div className="flex flex-col gap-4 border-t border-line p-4">
-                <RuleForm rule={r} categories={categories} today={today} />
+                <RuleForm key={JSON.stringify(r)} rule={r} categories={categories} today={today} />
                 <ConfirmDelete
                   action={removeRule}
                   id={r.id}
