@@ -52,6 +52,14 @@ export default async function ManagePage({ searchParams }: { searchParams: Promi
 
       <footer className="mt-14 flex items-center justify-center gap-3 text-sm text-muted">
         {user && <span>Conectado como {user.username}</span>}
+        {user?.role === "admin" && (
+          <>
+            <span aria-hidden>·</span>
+            <Link href="/admin" className="font-medium text-fg underline underline-offset-4">
+              Admin
+            </Link>
+          </>
+        )}
         <span aria-hidden>·</span>
         <form action={logout}>
           <button type="submit" className="font-medium text-fg underline underline-offset-4">

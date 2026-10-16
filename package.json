@@ -12,7 +12,8 @@
     "db:down": "docker compose down",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "tsx scripts/seed.ts"
+    "db:seed": "tsx scripts/seed.ts",
+    "db:make-admin": "tsx scripts/make-admin.ts"
   },
   "dependencies": {
     "drizzle-orm": "^0.45.4",

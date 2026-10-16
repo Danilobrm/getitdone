@@ -45,7 +45,9 @@ export async function findUserByUsername(username: string) {
 }
 
 export async function getUser(userId: string) {
-  const [row] = await db.select({ id: users.id, username: users.username }).from(users).where(eq(users.id, userId));
+  const [row] = await db.select({ id: users.id, username: users.username, role: users.role })
+    .from(users)
+    .where(eq(users.id, userId));
   return row ?? null;
 }
 

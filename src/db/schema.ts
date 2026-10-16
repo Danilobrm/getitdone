@@ -15,6 +15,7 @@ import {
 
 export const taskStatus = pgEnum("task_status", ["todo", "doing", "done"]);
 export const taskSource = pgEnum("task_source", ["manual", "seed", "recurring"]);
+export const userRole = pgEnum("user_role", ["user", "admin"]);
 export const sessionKind = pgEnum("session_kind", ["focus", "short_break", "long_break"]);
 
 export const users = pgTable("users", {
@@ -23,6 +24,7 @@ export const users = pgTable("users", {
   username: text("username").notNull().unique(),
   // null = unclaimed placeholder that owns pre-multi-user data until the first sign-up adopts it
   passwordHash: text("password_hash"),
+  role: userRole("role").notNull().default("user"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
