@@ -185,6 +185,7 @@ export async function removeRule(formData: FormData) {
   if (!parsed.success) return;
   await deleteRule(userId, parsed.data.id);
   revalidatePath("/", "layout");
+  redirect("/gerenciar?tab=rotinas");
 }
 
 // ---------- week & backlog ----------
