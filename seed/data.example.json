@@ -1,0 +1,17 @@
+{
+  "categories": [
+    { "name": "Exemplo A", "sortOrder": 0 },
+    { "name": "Exemplo B", "sortOrder": 1 }
+  ],
+  "tasks": [
+    {
+      "title": "Tarefa de exemplo com dia",
+      "notes": "Notas em markdown simples.\n- https://example.com/material",
+      "category": "Exemplo A",
+      "date": "2026-11-02",
+      "estimatedPomodoros": 2
+    },
+    { "title": "Outra tarefa no mesmo dia", "category": "Exemplo B", "date": "2026-11-02" },
+    { "title": "Tarefa sem dia (vai para o backlog)", "category": "Exemplo A" }
+  ]
+}

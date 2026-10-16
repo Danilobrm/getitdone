@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1792100600212,
+      "tag": "0000_mute_sugar_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792100831927,
+      "tag": "0001_seed_settings_row",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792101650918,
+      "tag": "0002_exotic_ravenous",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792105173398,
+      "tag": "0003_light_ogun",
+      "breakpoints": true
+    }
+  ]
+}
