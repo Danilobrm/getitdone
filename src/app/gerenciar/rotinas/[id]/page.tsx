@@ -2,12 +2,10 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { z } from "zod";
-import { ConfirmDelete } from "@/components/confirm-delete";
 import { RuleForm } from "@/components/rule-form";
 import { getRule, listCategories } from "@/db/queries";
 import { requireUserId } from "@/lib/auth";
 import { todayLocal } from "@/lib/dates";
-import { removeRule } from "../../../actions";
 
 export const dynamic = "force-dynamic";
 
@@ -25,15 +23,7 @@ export default async function EditRulePage({ params }: { params: Promise<{ id: s
         <ArrowLeft size={16} /> Voltar
       </Link>
       <h1 className="mt-4 mb-8 text-3xl font-semibold tracking-tighter">Editar rotina</h1>
-      <div className="flex flex-col gap-6">
-        <RuleForm key={JSON.stringify(rule)} rule={rule} categories={categories} today={todayLocal()} />
-        <ConfirmDelete
-          action={removeRule}
-          id={rule.id}
-          label="Excluir rotina"
-          warning="Excluir a rotina? As tarefas já geradas continuam, mas nada novo será criado."
-        />
-      </div>
+      <RuleForm key={JSON.stringify(rule)} rule={rule} categories={categories} today={todayLocal()} />
     </main>
   );
 }

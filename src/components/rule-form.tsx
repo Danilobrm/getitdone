@@ -1,11 +1,13 @@
 "use client";
 
-import { Select } from "./select";
-import { useActionState } from "react";
-import { addRule, saveRule, type RuleState } from "@/app/actions";
+import { Trash2 } from "lucide-react";
+import { useActionState, useState } from "react";
+import { addRule, removeRule, saveRule, type RuleState } from "@/app/actions";
 import type { CategoryRow, RuleRow } from "@/db/queries";
 import { WEEKDAY_SHORT } from "@/lib/dates";
-import { btnPrimary, field, label } from "@/lib/ui";
+import { btnPrimary, field, iconBtn, label } from "@/lib/ui";
+import { ConfirmModal } from "./confirm-modal";
+import { Select } from "./select";
 
 type Props = {
   categories: CategoryRow[];
@@ -16,8 +18,10 @@ type Props = {
 
 export function RuleForm({ categories, today, rule }: Props) {
   const [state, action, pending] = useActionState<RuleState, FormData>(rule ? saveRule : addRule, {});
+  const [confirming, setConfirming] = useState(false);
 
   return (
+    <>
     <form action={action} className="flex flex-col gap-5">
       {rule && <input type="hidden" name="id" value={rule.id} />}
       <label className="flex flex-col gap-1.5">
@@ -83,12 +87,35 @@ export function RuleForm({ categories, today, rule }: Props) {
           {state.error}
         </p>
       )}
-      <div className="flex items-center gap-3">
-        <button type="submit" disabled={pending} className={btnPrimary}>
-          {pending ? "Salvando..." : rule ? "Salvar" : "Criar rotina"}
+      <div className="flex items-stretch gap-2 pt-2">
+        <button type="submit" disabled={pending} className={`${btnPrimary} flex-1`}>
+          {rule ? "Salvar" : pending ? "Salvando..." : "Criar rotina"}
         </button>
-        {rule && state.savedAt && !pending && <span className="text-sm text-muted">Salvo.</span>}
+        {rule && (
+          <button
+            type="button"
+            aria-label="Excluir rotina"
+            title="Excluir rotina"
+            onClick={() => setConfirming(true)}
+            className={`${iconBtn} size-auto w-12`}
+          >
+            <Trash2 size={18} />
+          </button>
+        )}
       </div>
+      {rule && state.savedAt && !pending && <p className="text-sm text-muted">Salvo.</p>}
     </form>
+    {rule && (
+      <ConfirmModal
+        open={confirming}
+        onClose={() => setConfirming(false)}
+        title="Excluir rotina?"
+        description="As tarefas já geradas continuam, mas nada novo será criado."
+        confirmLabel="Excluir"
+        action={removeRule}
+        id={rule.id}
+      />
+    )}
+    </>
   );
 }
