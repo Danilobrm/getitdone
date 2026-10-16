@@ -550,10 +550,25 @@ export async function createRule(userId: string, input: RuleInput) {
 }
 
 export async function updateRule(userId: string, id: string, input: RuleInput) {
-  await db
-    .update(recurringRules)
-    .set({ ...input, categoryId: await ownedCategory(db, userId, input.categoryId) })
-    .where(and(eq(recurringRules.id, id), eq(recurringRules.userId, userId)));
+  const categoryId = await ownedCategory(db, userId, input.categoryId);
+  await db.transaction(async (tx) => {
+    await tx
+      .update(recurringRules)
+      .set({ ...input, categoryId })
+      .where(and(eq(recurringRules.id, id), eq(recurringRules.userId, userId)));
+    // Propagate to occurrences already generated from today on; finished ones and history stay.
+    await tx
+      .update(tasks)
+      .set({ title: input.title, notes: input.notes, categoryId })
+      .where(
+        and(
+          eq(tasks.userId, userId),
+          eq(tasks.recurringRuleId, id),
+          gte(tasks.date, todayLocal()),
+          ne(tasks.status, "done"),
+        ),
+      );
+  });
 }
 
 /** Already generated tasks stay (their rule link is nulled by the FK). */
